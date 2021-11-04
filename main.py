@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
+
+from utils.image_helper import get_image_file
+from utils.model_helper import predict_image
 
 app = FastAPI()
 
@@ -8,6 +11,12 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id}
+@app.post("/predict/predict_class")
+async def predict_class(file: UploadFile = File(...)):
+    image = await get_image_file(file)
+
+    predicted = predict_image(image)
+
+    return {
+        "image_class": predicted[0]
+    }
