@@ -1,7 +1,5 @@
 from easydict import EasyDict as edict
-from pathlib import Path
 import torch
-from torch.nn import CrossEntropyLoss
 from torchvision import transforms as trans
 
 
@@ -17,6 +15,5 @@ def get_config():
                     trans.ToTensor(),
                     trans.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
                 ])
-    conf.threshold = 1.5
 
     return conf

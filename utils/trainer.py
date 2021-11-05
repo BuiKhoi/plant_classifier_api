@@ -3,7 +3,7 @@ import torch
 from torchvision import transforms as trans
 
 class face_learner(object):
-    def __init__(self, conf):
+    def __init__(self, conf, threshold):
         if conf.use_mobilfacenet:
             self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
             print('MobileFaceNet model generated')
@@ -11,7 +11,7 @@ class face_learner(object):
             self.model = Backbone(conf.net_depth, conf.drop_ratio, conf.net_mode).to(conf.device)
             print('{}_{} model generated'.format(conf.net_mode, conf.net_depth))
         
-        self.threshold = conf.threshold
+        self.threshold = threshold
     
     def load_state(self, fixed_str):
         # print("Loading model from", fixed_str)

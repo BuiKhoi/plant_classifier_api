@@ -13,7 +13,7 @@ embeddings = np.squeeze(embeddings, 1)
 labels = databank["labels"]
 
 conf = get_config()
-inferer = face_learner(conf)
+inferer = face_learner(conf, const.strange_threshold)
 inferer.load_state(const.model_path)
 
 
