@@ -8,6 +8,7 @@ Most of the source codes in this repo is copied from the training repo. So take 
 # Running tutorial
 You will have to install the required packages with:
 ```
+pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
 
