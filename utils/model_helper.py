@@ -20,6 +20,9 @@ inferer.load_state(const.model_path)
 def predict_image(image):
     if image.shape[:2] != const.predict_size:
         image = cv2.resize(image, const.predict_size)
-    min_idx, _ = inferer.infer(conf, [Image.fromarray(image)], embeddings, True)
+    min_idx, _ = inferer.infer(conf, Image.fromarray(image[:, :, ::-1]), embeddings, True)
 
-    return labels[min_idx[0]]
+    if min_idx == -1:
+        return "Dunno"
+
+    return labels[min_idx[0]][0]

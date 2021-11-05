@@ -18,5 +18,5 @@ async def predict_class(file: UploadFile = File(...)):
     predicted = predict_image(image)
 
     return {
-        "image_class": predicted[0]
+        "image_class": predicted
     }
