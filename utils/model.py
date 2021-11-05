@@ -3,7 +3,6 @@ import torch.nn.functional as F
 import torch
 from collections import namedtuple
 import math
-import pdb
 
 ##################################  Original Arcface Model #############################################################
 

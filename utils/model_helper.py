@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from PIL import Image
 
@@ -11,13 +12,14 @@ embeddings = databank["embeddings"]
 embeddings = np.squeeze(embeddings, 1)
 labels = databank["labels"]
 
-conf = get_config(False)
-conf.use_mobilfacenet = True
-inferer = face_learner(conf, True)
-inferer.load_state(conf, const.model_path, False, True, absolute=True)
+conf = get_config()
+inferer = face_learner(conf)
+inferer.load_state(const.model_path)
 
 
 def predict_image(image):
+    if image.shape[:2] != const.predict_size:
+        image = cv2.resize(image, const.predict_size)
     min_idx, _ = inferer.infer(conf, [Image.fromarray(image)], embeddings, True)
 
     return labels[min_idx[0]]
