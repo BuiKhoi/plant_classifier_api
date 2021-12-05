@@ -4,6 +4,7 @@ from torchvision import transforms as trans
 
 class face_learner(object):
     def __init__(self, conf, threshold):
+        self.user_config = conf
         if conf.use_mobilfacenet:
             self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
             print('MobileFaceNet model generated')
@@ -15,7 +16,8 @@ class face_learner(object):
     
     def load_state(self, fixed_str):
         # print("Loading model from", fixed_str)
-        self.model.load_state_dict(torch.load(fixed_str))
+        loaded = torch.load(fixed_str, map_location=self.user_config.device)
+        self.model.load_state_dict(loaded)
     
     def infer(self, conf, image, target_embs, tta=False):
         '''
