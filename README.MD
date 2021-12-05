@@ -11,6 +11,7 @@ You will have to install the required packages with:
 pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
+Note: If your environment doesn't have any CUDA device installed, you may want not to install `pytorch`, but running on a CUDA environment is highly recommended
 
 Download sample model at [Google Drive](https://drive.google.com/file/d/1yYY7QoCSTkJvsJrsCHR7sUwrBRzv6-lO/view?usp=sharing), put it somewhere on your computer, remember its file path
 
