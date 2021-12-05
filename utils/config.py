@@ -11,6 +11,7 @@ def get_config():
     conf.net_depth = 50
     conf.net_mode = 'ir_se' # or 'ir'
     conf.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    conf.similarity_limit = 5
     conf.test_transform = trans.Compose([
                     trans.ToTensor(),
                     trans.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])

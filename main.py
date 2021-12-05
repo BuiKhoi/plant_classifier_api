@@ -15,8 +15,9 @@ def read_root():
 async def predict_class(file: UploadFile = File(...)):
     image = await get_image_file(file)
 
-    predicted = predict_image(image)
+    pred_labels, similarities = predict_image(image)
 
     return {
-        "image_class": predicted
+        "predicted_classes": pred_labels,
+        "similarities": similarities
     }

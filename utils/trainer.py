@@ -19,7 +19,7 @@ class face_learner(object):
         loaded = torch.load(fixed_str, map_location=self.user_config.device)
         self.model.load_state_dict(loaded)
     
-    def infer(self, conf, image, target_embs, tta=False):
+    def infer(self, conf, image, target_embs, tta, labels):
         '''
         image : PIL Image
         target_embs : [n, 512] computed embeddings of spieces in databank
@@ -41,7 +41,18 @@ class face_learner(object):
 
         diff = source_embs.unsqueeze(-1) - target_embs.transpose(1,0).unsqueeze(0)
         dist = torch.sum(torch.pow(diff, 2), dim=1)
-        minimum, min_idx = torch.min(dist, dim=1)
-        # print(minimum)
-        min_idx[minimum > self.threshold] = -1 # if no match, set idx to -1
-        return min_idx, minimum
+        sorted_idx = torch.argsort(dist, dim=1)
+        
+        return extract_result(sorted_idx, labels, target_embs, source_embs, conf.similarity_limit)
+
+def extract_result(sorted_idxs, labels, target_embds, source_embd, limit=5):
+    pred_labels = []
+    similarities = []
+    for idx in sorted_idxs[0]:
+        if pred_labels == [] or (labels[idx][0] not in pred_labels):
+            pred_labels.append(labels[idx][0])
+            similarities.append(torch.mm(target_embds[torch.unsqueeze(idx, 0)], source_embd.transpose(0,1)).detach().cpu().numpy()[0][0])
+        
+        if len(pred_labels) == limit:
+            break
+    return pred_labels, [round(float(s), 4) for s in similarities]
