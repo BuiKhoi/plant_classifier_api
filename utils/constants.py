@@ -6,3 +6,5 @@ model_path = os.environ.get("model_path", "E:\\Projects\\2.Plant_classifier\\src
 
 predict_size = eval(os.environ.get("predict_size", "(224, 224)"))
 strange_threshold = float(os.environ.get("strange_threshold", "1.2"))
+
+similarity_limit = int(os.environ.get("similarity_limit", "5"))

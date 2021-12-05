@@ -48,21 +48,26 @@ Class prediction API requires these inputs:
 Supported image extensions is `jpg, jpeg and png`.
 
 ### Output
-Output should in json format, which contains the class that the image is predicted belong to. For example, if you
-request the API with image of class "A", the output should be:
+The output will consist of two arrays, for example:
 ```
 {
-    "image_class": "A"
+  "predicted_classes": [
+    "7156",
+    "272711",
+    "81860",
+    "59206",
+    "288025"
+  ],
+  "similarities": [
+    0.7975,
+    0.2301,
+    0.2085,
+    0.1961,
+    0.1958
+  ]
 }
 ```
-
-At some cases, the model cannot choose a suitable class (for example when the plant type requested
-is not available within the database), the API will return:
-```
-{
-    "image_class": "Dunno"
-}
-```
+With `predicted_classes` is the descending classes with has the most similarity to the input image, it can be any name or class index, which is decided when you create the databank. And `similarities` is the corresponding similarity for the classes.
 
 # API Configuration
 You will need to configure this API at needs. To do so, first check out [constant.py](utils/constants.py)
@@ -78,6 +83,7 @@ the model will run slower. Note that if you want to change this `predict_size`, 
 the model to fit it.
 * strange_threshold: Default 1.2. This is the threshold of similarity to be considered "strange", which cannot
 be found similar to any result in the databank. Any image with predicted similarity exceed this value will result "Dunno" when predicting.
+* similarity_limit: Default 5. You will define how many similar class you wish to return when call the API
 
 Note: These variables are set as environment variable, so if you need to run as a docker container you will
 only need to configure in docker-compose file

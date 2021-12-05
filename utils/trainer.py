@@ -1,6 +1,7 @@
 from .model import Backbone, MobileFaceNet, l2_norm
 import torch
 from torchvision import transforms as trans
+from .constants import similarity_limit
 
 class face_learner(object):
     def __init__(self, conf, threshold):
@@ -43,7 +44,7 @@ class face_learner(object):
         dist = torch.sum(torch.pow(diff, 2), dim=1)
         sorted_idx = torch.argsort(dist, dim=1)
         
-        return extract_result(sorted_idx, labels, target_embs, source_embs, conf.similarity_limit)
+        return extract_result(sorted_idx, labels, target_embs, source_embs, similarity_limit)
 
 def extract_result(sorted_idxs, labels, target_embds, source_embd, limit=5):
     pred_labels = []
